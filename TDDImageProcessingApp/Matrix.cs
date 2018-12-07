@@ -18,6 +18,7 @@ namespace TDDImageProcessingApp
                   { -1,  0,  1, }, };
             }
         }
+
         public static double[,] Sobel3x3Vertical
         {
             get
@@ -26,6 +27,16 @@ namespace TDDImageProcessingApp
                 { {  1,  2,  1, },
                   {  0,  0,  0, },
                   { -1, -2, -1, }, };
+            }
+        }
+        public static double[,] Laplacian3x3
+        {
+            get
+            {
+                return new double[,]
+                { { -1, -1, -1,  },
+                  { -1,  8, -1,  },
+                  { -1, -1, -1,  }, };
             }
         }
     }

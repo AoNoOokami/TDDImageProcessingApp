@@ -30,45 +30,48 @@ namespace TDDImageProcessingAppTest
 
             Result = EdgeFilters.Sobel3x3Filter(TestImg, false);
 
-            Assert.IsTrue(CompareBitmap(Result, Reference));
+            Assert.IsTrue(CompareImageWithPixel(Reference, Result));
         }
 
-        /* @author : Alicia
-         * Byte per byte bitmap comparison.
-         * If images are the same, return true. If not, return false.*/
-        public bool CompareBitmap(Bitmap bmp1, Bitmap bmp2)
+        /*
+         *  @author: daniel
+         **/
+        [TestMethod]
+        public void Laplacian3x3Filter_CompareImageWithExistingResultFromOtherSoftware_ReturnsBitmapFiltered()
         {
-            if (bmp1 == null || bmp2 == null)
-                return false;
-            if (object.Equals(bmp1, bmp2))
-                return true;
-            if (!bmp1.Size.Equals(bmp2.Size) || !bmp1.PixelFormat.Equals(bmp2.PixelFormat))
-                return false;
+            // Arrange
+            var sourceBitmap = new Bitmap(Properties.Resources.square);
+            var existingResult = new Bitmap(Properties.Resources.square_laplacian);
+            var resultBitmap = EdgeFilters.Laplacian3x3Filter(sourceBitmap);
+            // Act
+            var result = CompareImageWithPixel(existingResult, resultBitmap);
+            // Assert
+            Assert.IsTrue(result);
+        }
 
-            int bytes = bmp1.Width * bmp1.Height * (Image.GetPixelFormatSize(bmp1.PixelFormat) / 8);
-
+        public bool CompareImageWithPixel(Bitmap existingResult, Bitmap resultBitmap)
+        {
             bool result = true;
-            byte[] b1bytes = new byte[bytes];
-            byte[] b2bytes = new byte[bytes];
+            string firstPixel;
+            string secondPixel;
 
-            BitmapData bitmapData1 = bmp1.LockBits(new Rectangle(0, 0, bmp1.Width - 1, bmp1.Height - 1), ImageLockMode.ReadOnly, bmp1.PixelFormat);
-            BitmapData bitmapData2 = bmp2.LockBits(new Rectangle(0, 0, bmp2.Width - 1, bmp2.Height - 1), ImageLockMode.ReadOnly, bmp2.PixelFormat);
-
-            Marshal.Copy(bitmapData1.Scan0, b1bytes, 0, bytes);
-            Marshal.Copy(bitmapData2.Scan0, b2bytes, 0, bytes);
-
-            for (int n = 0; n <= bytes - 1; n++)
+            if (existingResult.Width == resultBitmap.Width
+                && existingResult.Height == resultBitmap.Height)
             {
-                if (b1bytes[n] != b2bytes[n])
+                for (int i = 0; i < existingResult.Width; i++)
                 {
-                    result = false;
-                    break;
+                    for (int j = 0; j < existingResult.Height; j++)
+                    {
+                        firstPixel = resultBitmap.GetPixel(i, j).ToString();
+                        secondPixel = existingResult.GetPixel(i, j).ToString();
+                        if (firstPixel != secondPixel)
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
                 }
             }
-
-            bmp1.UnlockBits(bitmapData1);
-            bmp2.UnlockBits(bitmapData2);
-
             return result;
         }
     }
