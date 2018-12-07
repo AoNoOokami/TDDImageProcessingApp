@@ -7,6 +7,8 @@ namespace TDDImageProcessingApp
         public MainForm()
         {
             InitializeComponent();
+            cmbEdgeDetection.SelectedIndex = 0;
+            cmbFilters.SelectedIndex = 0;
         }
     }
 }
