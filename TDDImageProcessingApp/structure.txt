@@ -1,0 +1,13 @@
+Presentation layer
+MainForm
+
+
+Business layer
+ImageController (apply filters, event handlers)
+ImageFilter + IImageFilter
+EdgeDetection + IEdgeDetection
+
+
+Data layer
+FileManager (load, save)
+IFileManager
