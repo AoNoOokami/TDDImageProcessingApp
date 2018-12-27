@@ -6,6 +6,7 @@ Business layer
 ImageController (apply filters, event handlers)
 ImageFilter + IImageFilter
 EdgeDetection + IEdgeDetection
+EventHandler + IEventHandler
 
 
 Data layer
