@@ -62,6 +62,7 @@
             this.btnOpenOriginal.TabIndex = 16;
             this.btnOpenOriginal.Text = "Load Image";
             this.btnOpenOriginal.UseVisualStyleBackColor = true;
+            this.btnOpenOriginal.Click += new System.EventHandler(this.BtnOpenOriginalClick);
             // 
             // cmbFilters
             // 
