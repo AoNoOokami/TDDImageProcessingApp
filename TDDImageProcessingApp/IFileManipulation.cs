@@ -10,6 +10,6 @@ namespace TDDImageProcessingApp
     interface IFileManipulation
     {
         Bitmap LoadImage();
-        void SaveImage(); 
+        void SaveImage(Bitmap resultBitmap); 
     }
 }

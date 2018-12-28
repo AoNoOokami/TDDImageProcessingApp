@@ -69,10 +69,6 @@ namespace TDDImageProcessingApp
 
                 MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-
-
-
-
         }
     }
 }

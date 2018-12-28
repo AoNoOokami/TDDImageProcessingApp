@@ -93,6 +93,7 @@
             this.cmbEdgeDetection.Name = "cmbEdgeDetection";
             this.cmbEdgeDetection.Size = new System.Drawing.Size(175, 37);
             this.cmbEdgeDetection.TabIndex = 22;
+            this.cmbEdgeDetection.SelectedIndexChanged += new System.EventHandler(this.CmbEdgeDetectionSelectedItemEventHandler);
             // 
             // btnSaveNewImage
             // 
@@ -104,6 +105,7 @@
             this.btnSaveNewImage.TabIndex = 23;
             this.btnSaveNewImage.Text = "Save Image";
             this.btnSaveNewImage.UseVisualStyleBackColor = true;
+            this.btnSaveNewImage.Click += new System.EventHandler(this.BtnSaveNewImageClick);
             // 
             // imageFilterLabel
             // 
@@ -115,6 +117,7 @@
             this.imageFilterLabel.Size = new System.Drawing.Size(106, 25);
             this.imageFilterLabel.TabIndex = 24;
             this.imageFilterLabel.Text = "Image filter";
+            this.cmbFilters.SelectedIndexChanged += new System.EventHandler(this.CmbFiltersSelectedItemEventHandler);
             // 
             // edgeDetectionLabel
             // 
