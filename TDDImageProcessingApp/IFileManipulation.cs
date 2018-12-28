@@ -4,15 +4,12 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TDDImageProcessingApp.Properties;
 
 namespace TDDImageProcessingApp
 {
-    class LoadImage : IloadImage
+    interface IFileManipulation
     {
-        Bitmap IloadImage.LoadImage(Bitmap loadedImg)
-        {
-            return Resources.monkey; 
-        }
+        Bitmap LoadImage();
+        void SaveImage(); 
     }
 }

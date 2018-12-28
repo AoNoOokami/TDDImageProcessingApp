@@ -59,9 +59,9 @@
     <Compile Include="EdgeFilters.cs" />
     <Compile Include="ImageController.cs" />
     <Compile Include="ImageFilters.cs" />
-    <Compile Include="IloadImage.cs" />
+    <Compile Include="IFileManipulation.cs" />
     <Compile Include="IsaveImage.cs" />
-    <Compile Include="LoadImage.cs" />
+    <Compile Include="FileManipulation.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
