@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace TDDImageProcessingApp
 {
     public partial class MainForm : Form
     {
         // use interface to load file
-        private FileManipulation _fileManipulation;
+        private FileManipulation fileManipulation;
+        // use business logic to interact with the view layer
+        private BusinessLogic businessLogic;
         // original image loaded by the user
         private Bitmap originalBitmap;
         // previewBitmap show in the main form
@@ -24,6 +28,8 @@ namespace TDDImageProcessingApp
 
         public MainForm()
         {
+            fileManipulation = new FileManipulation();
+            businessLogic = new BusinessLogic(fileManipulation);
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;
@@ -31,29 +37,52 @@ namespace TDDImageProcessingApp
         // todo finish the implementation of the loadImage with interfaces
         private void BtnOpenOriginalClick(object sender, EventArgs e)
         {
-            _fileManipulation = new FileManipulation();
-            originalBitmap = _fileManipulation.LoadImage();
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Title = "Select an image file.";
+            ofd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
+            ofd.Filter += "|Bitmap Images(*.bmp)|*.bmp";
 
-            if (originalBitmap != null)
+            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                previewBitmap = originalBitmap.CopyToSquareCanvas(picPreview.Width);
-                picPreview.Image = previewBitmap;
-                bitmapResult = originalBitmap;
+                originalBitmap = businessLogic.FileManipulation.LoadImage(ofd.FileName);
+                businessLogic.OriginalBitmap = originalBitmap;
             }
+            previewBitmap = originalBitmap.CopyToSquareCanvas(picPreview.Width);
+            picPreview.Image = previewBitmap;
         }
 
         //TODO to finish
         private void BtnSaveNewImageClick(object sender, EventArgs e)
         {
-            // TODO delet juste for test before the filters
-            resultBitmap = originalBitmap; 
-            if (resultBitmap != null)
+            // TODO à supprimer ajouter juste pour le test de cette méthode
+            resultBitmap = businessLogic.OriginalBitmap; 
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Title = "Specify a file name and file path";
+            sfd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
+            sfd.Filter += "|Bitmap Images(*.bmp)|*.bmp";
+
+            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                _fileManipulation.SaveImage(resultBitmap);
+                string fileExtension = Path.GetExtension(sfd.FileName).ToUpper();
+                ImageFormat imgFormat = ImageFormat.Png;
+
+                if (fileExtension == "BMP")
+                {
+                    imgFormat = ImageFormat.Bmp;
+                }
+                else if (fileExtension == "JPG")
+                {
+                    imgFormat = ImageFormat.Jpeg;
+                }
+
+                businessLogic.FileManipulation.SaveImage(sfd.FileName, resultBitmap, imgFormat);
+
+                MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-
-        private void CmbEdgeDetectionSelectedItemEventHandler(object sender, EventArgs e)
+        //TODO move NEXT methods in Bussiness Logic
+/*        private void CmbEdgeDetectionSelectedItemEventHandler(object sender, EventArgs e)
         {
             // if cmbEdgeDetection is 'None', method couldn't be applied
             if (cmbEdgeDetection.SelectedItem.ToString() != "None")
@@ -66,9 +95,9 @@ namespace TDDImageProcessingApp
             }
             ApplyEdgeDetection(true);
 
-        }
+        }*/
 
-        private void ApplyEdgeDetection(bool b)
+/*        private void ApplyEdgeDetection(bool b)
         {
             if (imageFilterResult != null)
                 selectedSource = imageFilterResult;
@@ -86,7 +115,7 @@ namespace TDDImageProcessingApp
                     bitmapResult = selectedSource.Sobel3x3Filter(false);
                     break;
             }
-        }
+        }*/
 
         private void CmbFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {

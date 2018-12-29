@@ -93,7 +93,7 @@
             this.cmbEdgeDetection.Name = "cmbEdgeDetection";
             this.cmbEdgeDetection.Size = new System.Drawing.Size(175, 37);
             this.cmbEdgeDetection.TabIndex = 22;
-            this.cmbEdgeDetection.SelectedIndexChanged += new System.EventHandler(this.CmbEdgeDetectionSelectedItemEventHandler);
+            //this.cmbEdgeDetection.SelectedIndexChanged += new System.EventHandler(this.CmbEdgeDetectionSelectedItemEventHandler);
             // 
             // btnSaveNewImage
             // 

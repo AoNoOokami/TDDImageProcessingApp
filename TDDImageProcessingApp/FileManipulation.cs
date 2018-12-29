@@ -15,60 +15,31 @@ namespace TDDImageProcessingApp
     {
         // original image loaded by the user
         private Bitmap originalBitmap;
-        public FileManipulation()
+
+        public Bitmap LoadImage(string filename)
         {
-
-        }
-
-        public Bitmap LoadImage()
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Select an image file.";
-            ofd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
-            ofd.Filter += "|Bitmap Images(*.bmp)|*.bmp";
-
-
-            if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            try
             {
-                StreamReader streamReader = new StreamReader(ofd.FileName);
-                originalBitmap = (Bitmap)Bitmap.FromStream(streamReader.BaseStream);
-                streamReader.Close();
-
-                return originalBitmap;
+                using (StreamReader streamReader = new StreamReader(filename))
+                {
+                    originalBitmap = (Bitmap)Image.FromStream(streamReader.BaseStream);
+                    streamReader.Close();
+                    return originalBitmap;
+                }
             }
-
-            return null;
+            catch (IOException ioex)
+            {
+                throw new Exception(ioex.Message);
+            }
             //return Resources.monkey; 
         }
 
-        public void SaveImage(Bitmap resultBitmap)
+        public void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat)
         {
-            SaveFileDialog sfd = new SaveFileDialog();
-            sfd.Title = "Specify a file name and file path";
-            sfd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
-            sfd.Filter += "|Bitmap Images(*.bmp)|*.bmp";
-
-            if (sfd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string fileExtension = Path.GetExtension(sfd.FileName).ToUpper();
-                ImageFormat imgFormat = ImageFormat.Png;
-
-                if (fileExtension == "BMP")
-                {
-                    imgFormat = ImageFormat.Bmp;
-                }
-                else if (fileExtension == "JPG")
-                {
-                    imgFormat = ImageFormat.Jpeg;
-                }
-
-                StreamWriter streamWriter = new StreamWriter(sfd.FileName, false);
-                resultBitmap.Save(streamWriter.BaseStream, imgFormat);
-                streamWriter.Flush();
-                streamWriter.Close();
-
-                MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+            StreamWriter streamWriter = new StreamWriter(filename, false);
+            resultBitmap.Save(streamWriter.BaseStream, imgFormat);
+            streamWriter.Flush();
+            streamWriter.Close();
         }
     }
 }
