@@ -7,9 +7,12 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    class BusinessLogic
+    public class BusinessLogic
     {
-        private FileManipulation fileManipulation;
+        private IFileManipulation fileManipulation;
+
+        private ImageController imageController;
+
         // original image loaded by the user
         private Bitmap originalBitmap;
         // previewBitmap show in the main form
@@ -23,12 +26,17 @@ namespace TDDImageProcessingApp
         // bitmapResult is the image that will be saved
         private Bitmap bitmapResult = null;
 
-        public BusinessLogic(FileManipulation fileManipulation)
+        public BusinessLogic(IFileManipulation fileManipulation, ImageController imageController)
+        {
+            this.fileManipulation = fileManipulation;
+            this.imageController = imageController;
+        }
+        public BusinessLogic(IFileManipulation fileManipulation)
         {
             this.fileManipulation = fileManipulation;
         }
 
-        public FileManipulation FileManipulation
+        public IFileManipulation FileManipulation
         {
             get => fileManipulation;
             set => fileManipulation = value;

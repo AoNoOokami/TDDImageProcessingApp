@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    class ImageController
+    public class ImageController
     {
     }
 }

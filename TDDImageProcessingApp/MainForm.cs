@@ -11,6 +11,8 @@ namespace TDDImageProcessingApp
     {
         // use interface to load file
         private FileManipulation fileManipulation;
+        private ImageController imageController;
+
         // use business logic to interact with the view layer
         private BusinessLogic businessLogic;
         // original image loaded by the user
@@ -29,7 +31,8 @@ namespace TDDImageProcessingApp
         public MainForm()
         {
             fileManipulation = new FileManipulation();
-            businessLogic = new BusinessLogic(fileManipulation);
+            imageController = new ImageController();
+            businessLogic = new BusinessLogic(fileManipulation, imageController);
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;

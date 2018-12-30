@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    interface IFileManipulation
+    public interface IFileManipulation
     {
         Bitmap LoadImage(string filename);
         void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat); 
