@@ -56,13 +56,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BitmapUtil.cs" />
     <Compile Include="BusinessLogic.cs" />
     <Compile Include="EdgeFilters.cs" />
+    <Compile Include="IBitmapUtil.cs" />
     <Compile Include="ImageController.cs" />
     <Compile Include="ImageFilters.cs" />
-    <Compile Include="IFileManipulation.cs" />
+    <Compile Include="IFileManager.cs" />
     <Compile Include="IsaveImage.cs" />
-    <Compile Include="FileManipulation.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -11,7 +11,7 @@ using TDDImageProcessingApp.Properties;
 
 namespace TDDImageProcessingApp
 {
-    public class FileManipulation : IFileManipulation
+    public class FileManager : IFileManager
     {
         // original image loaded by the user
         private Bitmap originalBitmap;
@@ -27,11 +27,10 @@ namespace TDDImageProcessingApp
                     return originalBitmap;
                 }
             }
-            catch (IOException ioex)
+            catch (Exception e)
             {
-                throw new Exception(ioex.Message);
+                throw new Exception(e.Message);
             }
-            //return Resources.monkey; 
         }
 
         public void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat)

@@ -10,8 +10,9 @@ namespace TDDImageProcessingApp
     public partial class MainForm : Form
     {
         // use interface to load file
-        private FileManipulation fileManipulation;
+        private FileManager _fileManager;
         private ImageController imageController;
+        private IBitmapUtil bitmapUtil;
 
         // use business logic to interact with the view layer
         private BusinessLogic businessLogic;
@@ -30,16 +31,18 @@ namespace TDDImageProcessingApp
 
         public MainForm()
         {
-            fileManipulation = new FileManipulation();
+            _fileManager = new FileManager();
             imageController = new ImageController();
-            businessLogic = new BusinessLogic(fileManipulation, imageController);
+            bitmapUtil = new BitmapUtil();
+
+            businessLogic = new BusinessLogic(_fileManager, imageController, bitmapUtil);
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;
         }
-        // todo finish the implementation of the loadImage with interfaces
         private void BtnOpenOriginalClick(object sender, EventArgs e)
         {
+            // open the file dialog to load an image
             OpenFileDialog ofd = new OpenFileDialog();
             ofd.Title = "Select an image file.";
             ofd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
@@ -47,14 +50,16 @@ namespace TDDImageProcessingApp
 
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                originalBitmap = businessLogic.FileManipulation.LoadImage(ofd.FileName);
-                businessLogic.OriginalBitmap = originalBitmap;
+                // open the file from the bussiness logic through an interface to load an image
+                originalBitmap = businessLogic.LoadImage(ofd.FileName);
+                //businessLogic.OriginalBitmap = originalBitmap;
             }
-            previewBitmap = originalBitmap.CopyToSquareCanvas(picPreview.Width);
+
+            // calling the method from business logic to resize the image
+            previewBitmap = businessLogic.CopyToSquareCanvas(originalBitmap, picPreview.Width);
+            // set the resized image in the preview window
             picPreview.Image = previewBitmap;
         }
-
-        //TODO to finish
         private void BtnSaveNewImageClick(object sender, EventArgs e)
         {
             // TODO à supprimer ajouter juste pour le test de cette méthode
@@ -79,7 +84,7 @@ namespace TDDImageProcessingApp
                     imgFormat = ImageFormat.Jpeg;
                 }
 
-                businessLogic.FileManipulation.SaveImage(sfd.FileName, resultBitmap, imgFormat);
+                businessLogic.SaveImage(sfd.FileName, resultBitmap, imgFormat);
 
                 MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

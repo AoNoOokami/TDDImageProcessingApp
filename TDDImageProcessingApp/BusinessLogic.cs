@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,9 +10,11 @@ namespace TDDImageProcessingApp
 {
     public class BusinessLogic
     {
-        private IFileManipulation fileManipulation;
+        private IFileManager fileManager;
 
         private ImageController imageController;
+
+        private IBitmapUtil bitmapUtil;
 
         // original image loaded by the user
         private Bitmap originalBitmap;
@@ -26,21 +29,46 @@ namespace TDDImageProcessingApp
         // bitmapResult is the image that will be saved
         private Bitmap bitmapResult = null;
 
-        public BusinessLogic(IFileManipulation fileManipulation, ImageController imageController)
+        public BusinessLogic(IFileManager fileManager, ImageController imageController, IBitmapUtil bitmapUtil)
         {
-            this.fileManipulation = fileManipulation;
+            this.fileManager = fileManager;
             this.imageController = imageController;
+            this.bitmapUtil = bitmapUtil; 
         }
-        public BusinessLogic(IFileManipulation fileManipulation)
+        public BusinessLogic(IFileManager fileManager)
         {
-            this.fileManipulation = fileManipulation;
+            this.fileManager = fileManager;
         }
 
-        public IFileManipulation FileManipulation
+        public Bitmap CopyToSquareCanvas(Bitmap sourceBitmap, int canvasWidthLenght)
         {
-            get => fileManipulation;
-            set => fileManipulation = value;
+
+            previewBitmap = bitmapUtil.CopyToSquareCanvas(sourceBitmap, canvasWidthLenght); 
+
+            return previewBitmap; 
         }
+
+        public Bitmap LoadImage(string filename)
+        {
+            originalBitmap = fileManager.LoadImage(filename);
+            return originalBitmap;
+        }
+
+        public void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat)
+        {
+            fileManager.SaveImage(filename, resultBitmap, imgFormat);
+        }
+
+        public IFileManager FileManager
+        {
+            get => fileManager;
+            set => fileManager = value;
+        }
+
+/*        public Bitmap LoadOriginalFile(string filename)
+        {
+
+        }*/
 
         public Bitmap OriginalBitmap
         {
