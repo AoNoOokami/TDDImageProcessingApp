@@ -12,9 +12,10 @@ namespace TDDImageProcessingApp
     {
         private IFileManager fileManager;
 
-        private ImageController imageController;
-
         private IBitmapUtil bitmapUtil;
+
+        private IEdgeFilters egteFilters;
+        private IImageFilters imageFilters;
 
         // original image loaded by the user
         private Bitmap originalBitmap;
@@ -32,7 +33,6 @@ namespace TDDImageProcessingApp
         public BusinessLogic(IFileManager fileManager, ImageController imageController, IBitmapUtil bitmapUtil)
         {
             this.fileManager = fileManager;
-            this.imageController = imageController;
             this.bitmapUtil = bitmapUtil; 
         }
         public BusinessLogic(IFileManager fileManager)

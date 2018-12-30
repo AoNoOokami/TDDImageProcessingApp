@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    public class ImageFilters
+    public class ImageFilters : IImageFilters
     {
         //Rainbow Filter
-        public static Bitmap RainbowFilter(Bitmap bmp)
+        public Bitmap RainbowFilter(Bitmap bmp)
         {
             Bitmap temp = new Bitmap(bmp.Width, bmp.Height);
             int raz = bmp.Width / 4;
@@ -40,7 +40,7 @@ namespace TDDImageProcessingApp
         }
 
         //black and white filter
-        public static Bitmap BlackWhite(Bitmap Bmp)
+        public Bitmap BlackWhite(Bitmap Bmp)
         {
             int rgb;
             Color c;

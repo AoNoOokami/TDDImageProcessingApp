@@ -10,10 +10,10 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    public static class EdgeFilters
+    public class EdgeFilters : IEdgeFilters
     {
 
-        public static Bitmap Sobel3x3Filter(this Bitmap sourceBitmap,
+        public Bitmap Sobel3x3Filter(Bitmap sourceBitmap,
         bool grayscale = true)
         {
             Bitmap resultBitmap = EdgeFilters.ConvolutionFilter(sourceBitmap,
@@ -24,7 +24,7 @@ namespace TDDImageProcessingApp
             return resultBitmap;
         }
 
-        public static Bitmap Laplacian3x3Filter(this Bitmap sourceBitmap,
+        public Bitmap Laplacian3x3Filter(Bitmap sourceBitmap,
         bool grayscale = true)
         {
             Bitmap resultBitmap = EdgeFilters.ConvolutionFilter(sourceBitmap, 
@@ -129,7 +129,7 @@ namespace TDDImageProcessingApp
 
         // use a convolution matrix to prepare the image processing
         // with cartesian coordinate system
-        public static Bitmap ConvolutionFilter(this Bitmap sourceBitmap,
+        public static Bitmap ConvolutionFilter(Bitmap sourceBitmap,
         double[,] xFilterMatrix,
         double[,] yFilterMatrix,
         double factor = 1,
