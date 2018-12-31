@@ -45,6 +45,8 @@ namespace TDDImageProcessingApp
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;
+            cmbEdgeDetection.Enabled = false;
+            cmbFilters.Enabled = false;
         }
         private void BtnOpenOriginalClick(object sender, EventArgs e)
         {
@@ -65,6 +67,24 @@ namespace TDDImageProcessingApp
             previewBitmap = businessLogic.CopyToSquareCanvas(originalBitmap, picPreview.Width);
             // set the resized image in the preview window
             picPreview.Image = previewBitmap;
+            bitmapResult = originalBitmap;
+
+            if (cmbEdgeDetection.SelectedItem.ToString() != "None")
+            {
+                cmbFilters.Enabled = false;
+            }
+            else
+            {
+                cmbFilters.Enabled = true;
+                cmbEdgeDetection.Enabled = true;
+            }
+            bitmapResult = businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+            bitmapResult = businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
+
+            if (bitmapResult != null) { 
+                picPreview.Image = bitmapResult;
+            }
+
         }
         private void BtnSaveNewImageClick(object sender, EventArgs e)
         {
