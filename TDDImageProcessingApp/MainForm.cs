@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -10,9 +11,11 @@ namespace TDDImageProcessingApp
     public partial class MainForm : Form
     {
         // use interface to load file
-        private FileManager _fileManager;
+        private FileManager fileManager;
         private ImageController imageController;
         private IBitmapUtil bitmapUtil;
+        private IEdgeFilters edgeFilters;
+        private IImageFilters imageFilters;
 
         // use business logic to interact with the view layer
         private BusinessLogic businessLogic;
@@ -31,11 +34,14 @@ namespace TDDImageProcessingApp
 
         public MainForm()
         {
-            _fileManager = new FileManager();
-            imageController = new ImageController();
+            fileManager = new FileManager();
+           //todo delete or replace BusinessLogig with imageControler => do discuss
+            //  imageController = new ImageController();
             bitmapUtil = new BitmapUtil();
+            edgeFilters = new EdgeFilters();
+            imageFilters = new ImageFilters();
 
-            businessLogic = new BusinessLogic(_fileManager, imageController, bitmapUtil);
+            businessLogic = new BusinessLogic(fileManager, bitmapUtil, edgeFilters, imageFilters);
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;
@@ -62,8 +68,8 @@ namespace TDDImageProcessingApp
         }
         private void BtnSaveNewImageClick(object sender, EventArgs e)
         {
-            // TODO à supprimer ajouter juste pour le test de cette méthode
-            resultBitmap = businessLogic.OriginalBitmap; 
+/*            // TODO à supprimer ajouter juste pour le test de cette méthode
+            resultBitmap = businessLogic.OriginalBitmap; */
 
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "Specify a file name and file path";
@@ -90,7 +96,7 @@ namespace TDDImageProcessingApp
             }
         }
         //TODO move NEXT methods in Bussiness Logic
-/*        private void CmbEdgeDetectionSelectedItemEventHandler(object sender, EventArgs e)
+        private void CmbEdgeDetectionSelectedItemEventHandler(object sender, EventArgs e)
         {
             // if cmbEdgeDetection is 'None', method couldn't be applied
             if (cmbEdgeDetection.SelectedItem.ToString() != "None")
@@ -101,33 +107,28 @@ namespace TDDImageProcessingApp
             {
                 cmbFilters.Enabled = true;
             }
-            ApplyEdgeDetection(true);
 
-        }*/
+            bitmapResult = businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
 
-/*        private void ApplyEdgeDetection(bool b)
-        {
-            if (imageFilterResult != null)
-                selectedSource = imageFilterResult;
-
-            // retrieve selected edge filter
-            switch (cmbEdgeDetection.SelectedItem.ToString())
+            if (bitmapResult != null)
             {
-                case "None":
-                    bitmapResult = selectedSource;
-                    break;  
-                case "Laplacian 3x3":
-                    bitmapResult = selectedSource.Laplacian3x3Filter(false);
-                    break;
-                case "Sobel 3x3":
-                    bitmapResult = selectedSource.Sobel3x3Filter(false);
-                    break;
+                picPreview.Image = bitmapResult;
+                resultBitmap = bitmapResult;
             }
-        }*/
+        }
 
-        private void CmbFiltersSelectedItemEventHandler(object sender, EventArgs e)
+        // event handler for Image Filters
+        private void CmbImageFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {
-            
+            selectedSource = previewBitmap;
+            bitmapResult = businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+
+            if (bitmapResult != null)
+            {
+                picPreview.Image = bitmapResult;
+                resultBitmap = bitmapResult;
+            }
+
         }
     }
 }

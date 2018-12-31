@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    interface IEdgeFilters
+    public interface IEdgeFilters
     {
         Bitmap Sobel3x3Filter(Bitmap sourceBitmap, bool grayscale);
         Bitmap Laplacian3x3Filter(Bitmap sourceBitmap, bool grayscale);

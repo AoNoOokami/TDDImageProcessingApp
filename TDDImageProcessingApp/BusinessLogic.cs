@@ -14,7 +14,7 @@ namespace TDDImageProcessingApp
 
         private IBitmapUtil bitmapUtil;
 
-        private IEdgeFilters egteFilters;
+        private IEdgeFilters edgeFilters;
         private IImageFilters imageFilters;
 
         // original image loaded by the user
@@ -30,10 +30,13 @@ namespace TDDImageProcessingApp
         // bitmapResult is the image that will be saved
         private Bitmap bitmapResult = null;
 
-        public BusinessLogic(IFileManager fileManager, ImageController imageController, IBitmapUtil bitmapUtil)
+        public BusinessLogic(IFileManager fileManager, IBitmapUtil bitmapUtil, IEdgeFilters edgeFilters, IImageFilters imageFilters)
         {
             this.fileManager = fileManager;
-            this.bitmapUtil = bitmapUtil; 
+            this.bitmapUtil = bitmapUtil;
+            this.edgeFilters = edgeFilters;
+            this.imageFilters = imageFilters; 
+
         }
         public BusinessLogic(IFileManager fileManager)
         {
@@ -44,7 +47,6 @@ namespace TDDImageProcessingApp
         {
 
             previewBitmap = bitmapUtil.CopyToSquareCanvas(sourceBitmap, canvasWidthLenght); 
-
             return previewBitmap; 
         }
 
@@ -57,6 +59,64 @@ namespace TDDImageProcessingApp
         public void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat)
         {
             fileManager.SaveImage(filename, resultBitmap, imgFormat);
+        }
+
+        public Bitmap ApplyImageFilter(string selectedItem)
+        {
+            bitmapResult = null;
+            selectedSource = previewBitmap;
+
+            if (imageFilterResult != null)
+                selectedSource = originalBitmap;
+
+            if (selectedSource != null)
+            {
+                switch (selectedItem)
+                {
+                    case "None":
+                        bitmapResult = selectedSource;
+                        imageFilterResult = null;
+                        break;
+                    case "Rainbow":
+                        bitmapResult = imageFilters.RainbowFilter(selectedSource);
+                        imageFilterResult = bitmapResult;
+                        break;
+                    case "Black & white":
+                        bitmapResult = imageFilters.BlackWhite(selectedSource);
+                        imageFilterResult = bitmapResult;
+                        break;
+                }
+            }
+
+            return bitmapResult; 
+        }
+
+        public Bitmap EdgeDetection(string selectedItem)
+        {
+            bitmapResult = null;
+            selectedSource = previewBitmap;
+
+            if (imageFilterResult != null)
+                selectedSource = imageFilterResult;
+
+            if (selectedSource != null)
+            {
+                // retrieve selected edge filter
+                switch (selectedItem)
+                {
+                    case "None":
+                        bitmapResult = selectedSource;
+                        break;
+                    case "Laplacian 3x3":
+                        bitmapResult = edgeFilters.Laplacian3x3Filter(selectedSource, false);
+                        break;
+                    case "Sobel 3x3":
+                        bitmapResult = edgeFilters.Sobel3x3Filter(selectedSource, false);
+                        break;
+                }
+             }
+
+            return bitmapResult;
         }
 
         public IFileManager FileManager
