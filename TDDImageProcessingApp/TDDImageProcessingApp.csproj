@@ -56,24 +56,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BitmapUtil.cs" />
-    <Compile Include="BusinessLogic.cs" />
-    <Compile Include="EdgeFilters.cs" />
+    <Compile Include="Utils\BitmapUtil.cs" />
+    <Compile Include="Business layer\BusinessLogic.cs" />
+    <Compile Include="Filters\EdgeFilters.cs" />
     <Compile Include="IBitmapUtil.cs" />
     <Compile Include="IImageFilters.cs" />
-    <Compile Include="ImageController.cs" />
-    <Compile Include="ImageFilters.cs" />
+    <Compile Include="Business layer\ImageController.cs" />
+    <Compile Include="Filters\ImageFilters.cs" />
     <Compile Include="IFileManager.cs" />
     <Compile Include="IEdgeFilters.cs" />
     <Compile Include="IsaveImage.cs" />
-    <Compile Include="FileManager.cs" />
+    <Compile Include="InputOutput\FileManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Matrix.cs" />
+    <Compile Include="Utils\Matrix.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="MainForm.resx">
