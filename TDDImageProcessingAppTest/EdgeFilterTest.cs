@@ -10,6 +10,8 @@ namespace TDDImageProcessingAppTest
     [TestClass]
     public class EdgeFilterTest
     {
+        private readonly EdgeFilters edgeFilters = new EdgeFilters();
+
         [TestMethod]
         public void TestMethod1()
         {
@@ -28,7 +30,7 @@ namespace TDDImageProcessingAppTest
             // Reference image for comparison
             Bitmap Reference = Properties.Resources.cherry_sobel;
 
-            Result = EdgeFilters.Sobel3x3Filter(TestImg, false);
+            Result = edgeFilters.Sobel3x3Filter(TestImg, false);
 
             Assert.IsTrue(CompareImageWithPixel(Reference, Result));
         }
@@ -42,7 +44,7 @@ namespace TDDImageProcessingAppTest
             // Arrange
             var sourceBitmap = new Bitmap(Properties.Resources.square);
             var existingResult = new Bitmap(Properties.Resources.square_laplacian);
-            var resultBitmap = EdgeFilters.Laplacian3x3Filter(sourceBitmap);
+            var resultBitmap = edgeFilters.Laplacian3x3Filter(sourceBitmap);
             // Act
             var result = CompareImageWithPixel(existingResult, resultBitmap);
             // Assert

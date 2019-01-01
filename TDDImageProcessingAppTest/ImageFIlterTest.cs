@@ -8,6 +8,8 @@ namespace TDDImageProcessingAppTest
     [TestClass]
     public class ImageFilterTest
     {
+        private readonly ImageFilters imageFilters = new ImageFilters();
+
         [TestMethod]
         public void BlackWhiteTest()
         {
@@ -22,7 +24,7 @@ namespace TDDImageProcessingAppTest
                     TestImg.SetPixel(x, y, Color.FromArgb(120, 90, 150));
                 }
 
-            Result = ImageFilters.BlackWhite(TestImg);
+            Result = imageFilters.BlackWhite(TestImg);
             Assert.IsTrue(IsPixelColorEqual(Result));
         }
 
@@ -44,7 +46,7 @@ namespace TDDImageProcessingAppTest
                     TestImg.SetPixel(x, y, Color.FromArgb(120, 90, 150));
                 }
 
-            Result = ImageFilters.RainbowFilter(TestImg);
+            Result = imageFilters.RainbowFilter(TestImg);
 
             Assert.IsTrue(IsRainbowApplied(Result));
         }
