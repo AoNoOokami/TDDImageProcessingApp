@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IUserInterface.cs" />
     <Compile Include="Utils\BitmapUtil.cs" />
     <Compile Include="Business layer\BusinessLogic.cs" />
     <Compile Include="Filters\EdgeFilters.cs" />

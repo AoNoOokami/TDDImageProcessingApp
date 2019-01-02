@@ -38,6 +38,12 @@ namespace TDDImageProcessingApp
             this.imageFilters = imageFilters; 
 
         }
+
+        public BusinessLogic(IImageFilters imageFilters)
+        {
+            this.imageFilters = imageFilters;
+        }
+
         public BusinessLogic(IFileManager fileManager)
         {
             this.fileManager = fileManager;
@@ -63,6 +69,7 @@ namespace TDDImageProcessingApp
 
         public Bitmap ApplyImageFilter(string selectedItem)
         {
+            //var selectedItem = filter.GetSelectedItem();
             bitmapResult = null;
             selectedSource = previewBitmap;
 

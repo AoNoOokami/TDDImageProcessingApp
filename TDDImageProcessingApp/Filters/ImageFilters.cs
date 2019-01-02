@@ -9,6 +9,8 @@ namespace TDDImageProcessingApp
 {
     public class ImageFilters : IImageFilters
     {
+        MainForm form = new MainForm();
+
         //Rainbow Filter
         public Bitmap RainbowFilter(Bitmap bmp)
         {
@@ -53,6 +55,11 @@ namespace TDDImageProcessingApp
                     Bmp.SetPixel(x, y, Color.FromArgb(rgb, rgb, rgb));
                 }
             return Bmp;
+        }
+
+        public string GetSelectedItem()
+        {
+            return form.getCmbFiltersSelectedItem();
         }
     }
 }
