@@ -79,7 +79,7 @@ namespace TDDImageProcessingApp
                 cmbEdgeDetection.Enabled = true;
             }
             bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
-            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
+            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null) { 
                 picPreview.Image = bitmapResult;
@@ -128,7 +128,7 @@ namespace TDDImageProcessingApp
                 cmbFilters.Enabled = true;
             }
 
-            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
+            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null)
             {

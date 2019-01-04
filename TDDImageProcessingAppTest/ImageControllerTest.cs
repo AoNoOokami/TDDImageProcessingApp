@@ -25,6 +25,7 @@ namespace TDDImageProcessingAppTest
         {
             businessLogic = new BusinessLogic();
             businessLogic.SelectedSource = Resources.cherry;
+            var bitmapUtil = Substitute.For<IBitmapUtil>();
 
             var result = businessLogic.ApplyImageFilter(null);
 
@@ -36,8 +37,9 @@ namespace TDDImageProcessingAppTest
         {
             businessLogic = new BusinessLogic();
             businessLogic.SelectedSource = Resources.cherry;
+            var bitmapUtil = Substitute.For<IBitmapUtil>();
 
-            var result = businessLogic.EdgeDetection(null);
+            var result = businessLogic.EdgeDetection(null, bitmapUtil);
 
             Assert.IsNull(result);
         }
@@ -47,10 +49,14 @@ namespace TDDImageProcessingAppTest
         {
             businessLogic = new BusinessLogic();
             utils = new Utils();
-            businessLogic.SelectedSource = Resources.cherry;
+            var img = Resources.cherry;
             var referenceBitmap = Resources.cherry_sobel;
 
-            var resultBitmap = businessLogic.EdgeDetection("Sobel 3x3");
+            // Substitute for IBitmapUtil and instructions for SetBitmap return
+            var bitmapUtil = Substitute.For<IBitmapUtil>();
+            bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
+
+            var resultBitmap = businessLogic.EdgeDetection("Sobel 3x3", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);

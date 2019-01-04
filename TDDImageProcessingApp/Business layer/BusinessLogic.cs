@@ -107,10 +107,10 @@ namespace TDDImageProcessingApp
             return bitmapResult; 
         }
 
-        public Bitmap EdgeDetection(string selectedItem)
+        public Bitmap EdgeDetection(string selectedItem, IBitmapUtil bitmapUtiltest)
         {
             bitmapResult = null;
-            selectedSource = previewBitmap;
+            selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
 
             if (imageFilterResult != null)
                 selectedSource = imageFilterResult;

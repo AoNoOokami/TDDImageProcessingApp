@@ -37,5 +37,10 @@ namespace TDDImageProcessingApp
 
             return bitmapResult;
         }
+
+        public Bitmap SetBitmap(Bitmap img)
+        {
+            return img;
+        }
     }
 }
