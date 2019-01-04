@@ -9,7 +9,7 @@ namespace TDDImageProcessingApp
 {
     public class ImageFilters : IImageFilters
     {
-        MainForm form = new MainForm();
+        //MainForm form = new MainForm();
 
         //Rainbow Filter
         public Bitmap RainbowFilter(Bitmap bmp)
@@ -57,9 +57,9 @@ namespace TDDImageProcessingApp
             return Bmp;
         }
 
-        public string GetSelectedItem()
+/*        public string GetSelectedItem()
         {
             return form.getCmbFiltersSelectedItem();
-        }
+        }*/
     }
 }

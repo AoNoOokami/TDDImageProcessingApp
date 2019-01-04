@@ -44,6 +44,12 @@ namespace TDDImageProcessingApp
             this.imageFilters = imageFilters;
         }
 
+        public BusinessLogic(IBitmapUtil bitmapUtil, IImageFilters imageFilters)
+        {
+            this.bitmapUtil = bitmapUtil;
+            this.imageFilters = imageFilters;
+        }
+
         public BusinessLogic(IFileManager fileManager)
         {
             this.fileManager = fileManager;
@@ -51,7 +57,6 @@ namespace TDDImageProcessingApp
 
         public Bitmap CopyToSquareCanvas(Bitmap sourceBitmap, int canvasWidthLenght)
         {
-
             previewBitmap = bitmapUtil.CopyToSquareCanvas(sourceBitmap, canvasWidthLenght); 
             return previewBitmap; 
         }
@@ -153,6 +158,18 @@ namespace TDDImageProcessingApp
         {
             get => resultBitmap;
             set => resultBitmap = value;
+        }
+
+        public Bitmap SelectedSource
+        {
+            get => selectedSource;
+            set => selectedSource = value;
+        }
+
+        public Bitmap PreviewBitmap
+        {
+            get => previewBitmap;
+            set => previewBitmap = value;
         }
     }
 }

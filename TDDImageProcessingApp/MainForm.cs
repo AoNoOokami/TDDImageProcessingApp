@@ -11,14 +11,14 @@ namespace TDDImageProcessingApp
     public partial class MainForm : Form
     {
         // use interface to load file
-        private FileManager fileManager;
-        private ImageController imageController;
-        private IBitmapUtil bitmapUtil;
+        private FileManager _fileManager;
+        private ImageController _imageController;
+        private IBitmapUtil _bitmapUtil;
         private IEdgeFilters edgeFilters;
         private IImageFilters imageFilters;
 
         // use business logic to interact with the view layer
-        private BusinessLogic businessLogic;
+        private BusinessLogic _businessLogic;
         // original image loaded by the user
         private Bitmap originalBitmap;
         // previewBitmap show in the main form
@@ -34,14 +34,14 @@ namespace TDDImageProcessingApp
 
         public MainForm()
         {
-            fileManager = new FileManager();
+            _fileManager = new FileManager();
            //todo delete or replace BusinessLogig with imageControler => do discuss
             //  imageController = new ImageController();
-            bitmapUtil = new BitmapUtil();
+            _bitmapUtil = new BitmapUtil();
             edgeFilters = new EdgeFilters();
             imageFilters = new ImageFilters();
 
-            businessLogic = new BusinessLogic(fileManager, bitmapUtil, edgeFilters, imageFilters);
+            _businessLogic = new BusinessLogic(_fileManager, _bitmapUtil, edgeFilters, imageFilters);
             InitializeComponent();
             cmbEdgeDetection.SelectedIndex = 0;
             cmbFilters.SelectedIndex = 0;
@@ -59,12 +59,12 @@ namespace TDDImageProcessingApp
             if (ofd.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 // open the file from the bussiness logic through an interface to load an image
-                originalBitmap = businessLogic.LoadImage(ofd.FileName);
+                originalBitmap = _businessLogic.LoadImage(ofd.FileName);
                 //businessLogic.OriginalBitmap = originalBitmap;
             }
 
             // calling the method from business logic to resize the image
-            previewBitmap = businessLogic.CopyToSquareCanvas(originalBitmap, picPreview.Width);
+            previewBitmap = _businessLogic.CopyToSquareCanvas(originalBitmap, picPreview.Width);
             // set the resized image in the preview window
             picPreview.Image = previewBitmap;
             bitmapResult = originalBitmap;
@@ -78,8 +78,8 @@ namespace TDDImageProcessingApp
                 cmbFilters.Enabled = true;
                 cmbEdgeDetection.Enabled = true;
             }
-            bitmapResult = businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
-            bitmapResult = businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
+            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
 
             if (bitmapResult != null) { 
                 picPreview.Image = bitmapResult;
@@ -110,7 +110,7 @@ namespace TDDImageProcessingApp
                     imgFormat = ImageFormat.Jpeg;
                 }
 
-                businessLogic.SaveImage(sfd.FileName, resultBitmap, imgFormat);
+                _businessLogic.SaveImage(sfd.FileName, resultBitmap, imgFormat);
 
                 MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -128,7 +128,7 @@ namespace TDDImageProcessingApp
                 cmbFilters.Enabled = true;
             }
 
-            bitmapResult = businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
+            bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString());
 
             if (bitmapResult != null)
             {
@@ -141,7 +141,7 @@ namespace TDDImageProcessingApp
         private void CmbImageFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {
             selectedSource = previewBitmap;
-            bitmapResult = businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
 
             if (bitmapResult != null)
             {
