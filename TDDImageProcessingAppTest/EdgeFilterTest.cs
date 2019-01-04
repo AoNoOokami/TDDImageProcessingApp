@@ -11,11 +11,7 @@ namespace TDDImageProcessingAppTest
     public class EdgeFilterTest
     {
         private readonly EdgeFilters edgeFilters = new EdgeFilters();
-
-        [TestMethod]
-        public void TestMethod1()
-        {
-        }
+        private readonly Utils utils = new Utils();
 
         /* @author : Alicia
          * Filter tested : Sobel3x3Filter in EdgeFilters class without Grayscale.
@@ -32,7 +28,7 @@ namespace TDDImageProcessingAppTest
 
             Result = edgeFilters.Sobel3x3Filter(TestImg, false);
 
-            Assert.IsTrue(CompareImageWithPixel(Reference, Result));
+            Assert.IsTrue(utils.CompareImageWithPixel(Reference, Result));
         }
 
         /*
@@ -46,35 +42,9 @@ namespace TDDImageProcessingAppTest
             var existingResult = new Bitmap(Properties.Resources.square_laplacian);
             var resultBitmap = edgeFilters.Laplacian3x3Filter(sourceBitmap);
             // Act
-            var result = CompareImageWithPixel(existingResult, resultBitmap);
+            var result = utils.CompareImageWithPixel(existingResult, resultBitmap);
             // Assert
             Assert.IsTrue(result);
-        }
-
-        public bool CompareImageWithPixel(Bitmap existingResult, Bitmap resultBitmap)
-        {
-            bool result = true;
-            string firstPixel;
-            string secondPixel;
-
-            if (existingResult.Width == resultBitmap.Width
-                && existingResult.Height == resultBitmap.Height)
-            {
-                for (int i = 0; i < existingResult.Width; i++)
-                {
-                    for (int j = 0; j < existingResult.Height; j++)
-                    {
-                        firstPixel = resultBitmap.GetPixel(i, j).ToString();
-                        secondPixel = existingResult.GetPixel(i, j).ToString();
-                        if (firstPixel != secondPixel)
-                        {
-                            result = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            return result;
         }
     }
 }

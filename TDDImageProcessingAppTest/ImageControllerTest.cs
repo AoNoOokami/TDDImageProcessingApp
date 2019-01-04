@@ -12,64 +12,48 @@ namespace TDDImageProcessingAppTest
     public class ImageControllerTest
     {
         private BusinessLogic businessLogic;
+        private Utils utils;
 
         [TestMethod]
         public void TestMethod1()
         {
+
         }
 
         [TestMethod]
-        public void ApplyImageFilter_NoItemSelected()
+        public void ApplyImageFilter_SelectedItemIsNull()
         {
-            //Create
-            IBitmapUtil bitmapUtil = new BitmapUtil();
-                //Substitute.For<IBitmapUtil>() ;
-            IImageFilters imageFilters = new ImageFilters();
-                //Substitute.For<IImageFilters>();
-            IFileManager fileManager = Substitute.For<IFileManager>();
-            IUserInterface userInterface = Substitute.For <IUserInterface> ();
+            businessLogic = new BusinessLogic();
+            businessLogic.SelectedSource = Resources.cherry;
 
+            var result = businessLogic.ApplyImageFilter(null);
 
-            
-            Bitmap originalImage = new Bitmap(100,100);
-            businessLogic = new BusinessLogic(bitmapUtil, imageFilters);
-            businessLogic.CopyToSquareCanvas(originalImage, 50);
-            //businessLogic.PreviewBitmap = originalImage;
+            Assert.IsNull(result);
+        }
 
+        [TestMethod]
+        public void EdgeDetection_SelectedItemIsNull()
+        {
+            businessLogic = new BusinessLogic();
+            businessLogic.SelectedSource = Resources.cherry;
 
-            //Set return value
-            //var param = userInterface.GetSelectedItemCMBImageFilter().Returns("Rainbow");
-            Bitmap result = businessLogic.ApplyImageFilter("Rainbow");
+            var result = businessLogic.EdgeDetection(null);
 
-            //imageFilters.When(x => x.GetSelectedItem()).Do(x => throw new Exception());
-           // var result = imageFilters.RainbowFilter(originalImage).Returns(x => Resources.cherry);
-            Assert.IsNotNull(result);
-            
-            //Assert.ThrowsException<Exception>(() => imageFilters.GetSelectedItem());
+            Assert.IsNull(result);
+        }
 
-/*
+        [TestMethod]
+        public void EdgeDetection_Sobel()
+        {
+            businessLogic = new BusinessLogic();
+            utils = new Utils();
+            businessLogic.SelectedSource = Resources.cherry;
+            var referenceBitmap = Resources.cherry_sobel;
 
-            // substitute the interfaces using NSubstitute
-            var files = Substitute.For<IFiles>();
-            var bitmap = Substitute.For<IBitmap>();
-            var filters = Substitute.For<IFilters>();
+            var resultBitmap = businessLogic.EdgeDetection("Sobel 3x3");
+            var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
-            // set the sourcebitmap and mockbitmap
-            Bitmap sourceBitmap = Properties.Resources.panda;
-            Bitmap mockBitmap = Properties.Resources.pandanight;
-
-            // fool the substitute to return to us a mockbitmap
-            filters.NightFilter(sourceBitmap).Returns<Bitmap>(mockBitmap);
-
-            // pass the substitutes to image controller
-            ImageController imageController = new ImageController(files, bitmap, filters);
-
-            // set testbitmap equals to what the imagecontroller nightfilter method returns
-            Bitmap testBitmap = imageController.NightFilter(sourceBitmap);
-
-            // assert if mockbitmap and testbitmap are the equal
-            Assert.AreEqual(testBitmap, mockBitmap);*/
-
+            Assert.IsTrue(result);
         }
     }
 }

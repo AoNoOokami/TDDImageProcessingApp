@@ -11,6 +11,5 @@ namespace TDDImageProcessingApp
     {
         Bitmap RainbowFilter(Bitmap bmp);
         Bitmap BlackWhite(Bitmap Bmp);
-        //string GetSelectedItem();
     }
 }

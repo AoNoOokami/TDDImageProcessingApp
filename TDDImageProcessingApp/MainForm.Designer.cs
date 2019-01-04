@@ -160,11 +160,6 @@
         private System.Windows.Forms.Button btnSaveNewImage;
         private System.Windows.Forms.Label imageFilterLabel;
         private System.Windows.Forms.Label edgeDetectionLabel;
-
-        public string getCmbFiltersSelectedItem()
-        {
-            return cmbFilters.SelectedItem.ToString();
-        }
     }
 }
 

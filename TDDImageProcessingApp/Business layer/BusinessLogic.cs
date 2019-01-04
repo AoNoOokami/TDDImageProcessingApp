@@ -55,6 +55,11 @@ namespace TDDImageProcessingApp
             this.fileManager = fileManager;
         }
 
+        public BusinessLogic()
+        {
+         
+        }
+
         public Bitmap CopyToSquareCanvas(Bitmap sourceBitmap, int canvasWidthLenght)
         {
             previewBitmap = bitmapUtil.CopyToSquareCanvas(sourceBitmap, canvasWidthLenght); 
@@ -74,7 +79,6 @@ namespace TDDImageProcessingApp
 
         public Bitmap ApplyImageFilter(string selectedItem)
         {
-            //var selectedItem = filter.GetSelectedItem();
             bitmapResult = null;
             selectedSource = previewBitmap;
 
