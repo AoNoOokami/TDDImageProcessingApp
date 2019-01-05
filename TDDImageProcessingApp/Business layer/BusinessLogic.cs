@@ -11,9 +11,7 @@ namespace TDDImageProcessingApp
     public class BusinessLogic
     {
         private IFileManager fileManager;
-
         private IBitmapUtil bitmapUtil;
-
         private IEdgeFilters edgeFilters;
         private IImageFilters imageFilters;
 
@@ -36,28 +34,11 @@ namespace TDDImageProcessingApp
             this.bitmapUtil = bitmapUtil;
             this.edgeFilters = edgeFilters;
             this.imageFilters = imageFilters; 
-
-        }
-
-        public BusinessLogic(IImageFilters imageFilters)
-        {
-            this.imageFilters = imageFilters;
-        }
-
-        public BusinessLogic(IBitmapUtil bitmapUtil, IImageFilters imageFilters)
-        {
-            this.bitmapUtil = bitmapUtil;
-            this.imageFilters = imageFilters;
         }
 
         public BusinessLogic(IFileManager fileManager)
         {
             this.fileManager = fileManager;
-        }
-
-        public BusinessLogic()
-        {
-         
         }
 
         public Bitmap CopyToSquareCanvas(Bitmap sourceBitmap, int canvasWidthLenght)
@@ -77,10 +58,10 @@ namespace TDDImageProcessingApp
             fileManager.SaveImage(filename, resultBitmap, imgFormat);
         }
 
-        public Bitmap ApplyImageFilter(string selectedItem)
+        public Bitmap ApplyImageFilter(string selectedItem, IBitmapUtil bitmapUtiltest)
         {
             bitmapResult = null;
-            selectedSource = previewBitmap;
+            selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
 
             if (imageFilterResult != null)
                 selectedSource = originalBitmap;

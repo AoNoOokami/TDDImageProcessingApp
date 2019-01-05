@@ -73,6 +73,36 @@ namespace TDDImageProcessingAppTest.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cherry_bw {
+            get {
+                object obj = ResourceManager.GetObject("cherry_bw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cherry_laplacian {
+            get {
+                object obj = ResourceManager.GetObject("cherry_laplacian", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap cherry_rainbow {
+            get {
+                object obj = ResourceManager.GetObject("cherry_rainbow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap cherry_sobel {
             get {
                 object obj = ResourceManager.GetObject("cherry_sobel", resourceCulture);

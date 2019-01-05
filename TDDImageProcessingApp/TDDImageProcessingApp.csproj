@@ -56,17 +56,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IUserInterface.cs" />
     <Compile Include="Utils\BitmapUtil.cs" />
     <Compile Include="Business layer\BusinessLogic.cs" />
     <Compile Include="Filters\EdgeFilters.cs" />
-    <Compile Include="IBitmapUtil.cs" />
-    <Compile Include="IImageFilters.cs" />
-    <Compile Include="Business layer\ImageController.cs" />
+    <Compile Include="Utils\IBitmapUtil.cs" />
+    <Compile Include="Filters\IImageFilters.cs" />
     <Compile Include="Filters\ImageFilters.cs" />
-    <Compile Include="IFileManager.cs" />
-    <Compile Include="IEdgeFilters.cs" />
-    <Compile Include="IsaveImage.cs" />
+    <Compile Include="InputOutput\IFileManager.cs" />
+    <Compile Include="Filters\IEdgeFilters.cs" />
+    <Compile Include="InputOutput\IsaveImage.cs" />
     <Compile Include="InputOutput\FileManager.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

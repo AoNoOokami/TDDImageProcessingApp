@@ -100,7 +100,6 @@ namespace TDDImageProcessingAppTest
             // arrange
             fileManager = new FileManager();
             businessLogic = new BusinessLogic(fileManager);
-            Bitmap resultBitmap = null;
 
             // act
             businessLogic.SaveImage("test", null, ImageFormat.Png);

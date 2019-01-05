@@ -12,7 +12,6 @@ namespace TDDImageProcessingApp
     {
         // use interface to load file
         private FileManager _fileManager;
-        private ImageController _imageController;
         private IBitmapUtil _bitmapUtil;
         private IEdgeFilters edgeFilters;
         private IImageFilters imageFilters;
@@ -78,7 +77,7 @@ namespace TDDImageProcessingApp
                 cmbFilters.Enabled = true;
                 cmbEdgeDetection.Enabled = true;
             }
-            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
             bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null) { 
@@ -141,7 +140,7 @@ namespace TDDImageProcessingApp
         private void CmbImageFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {
             selectedSource = previewBitmap;
-            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString());
+            bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null)
             {
