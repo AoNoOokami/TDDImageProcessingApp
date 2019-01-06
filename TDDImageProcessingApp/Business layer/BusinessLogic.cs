@@ -10,6 +10,7 @@ namespace TDDImageProcessingApp
 {
     public class BusinessLogic
     {
+        // use the interfaces in the business logic
         private IFileManager fileManager;
         private IBitmapUtil bitmapUtil;
         private IEdgeFilters edgeFilters;
@@ -28,6 +29,7 @@ namespace TDDImageProcessingApp
         // bitmapResult is the image that will be saved
         private Bitmap bitmapResult = null;
 
+        // constructor with all interfaces to be instantiated in the view
         public BusinessLogic(IFileManager fileManager, IBitmapUtil bitmapUtil, IEdgeFilters edgeFilters, IImageFilters imageFilters)
         {
             this.fileManager = fileManager;
@@ -40,34 +42,35 @@ namespace TDDImageProcessingApp
         {
             this.fileManager = fileManager;
         }
-
+        // use the interface bitmapUtil to resize the image to fit the window
         public Bitmap CopyToSquareCanvas(Bitmap sourceBitmap, int canvasWidthLenght)
         {
             previewBitmap = bitmapUtil.CopyToSquareCanvas(sourceBitmap, canvasWidthLenght); 
             return previewBitmap; 
         }
-
+        // use to load the original image to be opened
         public Bitmap LoadImage(string filename)
         {
             originalBitmap = fileManager.LoadImage(filename);
             return originalBitmap;
         }
-
+        // use to save the filtered image
         public void SaveImage(string filename, Bitmap resultBitmap, ImageFormat imgFormat)
         {
             fileManager.SaveImage(filename, resultBitmap, imgFormat);
         }
-
+        // apply an image filter with the interface IImageFilters
         public Bitmap ApplyImageFilter(string selectedItem, IBitmapUtil bitmapUtiltest)
         {
             bitmapResult = null;
             selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
-
+            // if the image has already been filtered, the original image is reused
             if (imageFilterResult != null)
                 selectedSource = originalBitmap;
 
             if (selectedSource != null)
             {
+                // retrieve selected image filter
                 switch (selectedItem)
                 {
                     case "None":
@@ -87,12 +90,12 @@ namespace TDDImageProcessingApp
 
             return bitmapResult; 
         }
-
+        // apply an edge detection with the interface IEdgeFilters
         public Bitmap EdgeDetection(string selectedItem, IBitmapUtil bitmapUtiltest)
         {
             bitmapResult = null;
             selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
-
+            // check if the image was already transformed
             if (imageFilterResult != null)
                 selectedSource = imageFilterResult;
 
@@ -116,45 +119,51 @@ namespace TDDImageProcessingApp
             return bitmapResult;
         }
 
-        public IFileManager FileManager
-        {
-            get => fileManager;
-            set => fileManager = value;
-        }
-
-/*        public Bitmap LoadOriginalFile(string filename)
-        {
-
-        }*/
-
         public Bitmap OriginalBitmap
         {
             get => originalBitmap;
             set => originalBitmap = value;
         }
 
-        public Bitmap BitmapResult
+        public Bitmap ImageFilterResult
         {
-            get => bitmapResult;
-            set => bitmapResult = value;
+            set => imageFilterResult = value;
         }
 
-        public Bitmap ResultBitmap
-        {
-            get => resultBitmap;
-            set => resultBitmap = value;
-        }
+        /*        // getters and setters
+                public IFileManager FileManager
+                {
+                    get => fileManager;
+                    set => fileManager = value;
+                }
+                public Bitmap OriginalBitmap
+                {
+                    get => originalBitmap;
+                    set => originalBitmap = value;
+                }
 
-        public Bitmap SelectedSource
-        {
-            get => selectedSource;
-            set => selectedSource = value;
-        }
+                public Bitmap BitmapResult
+                {
+                    get => bitmapResult;
+                    set => bitmapResult = value;
+                }
 
-        public Bitmap PreviewBitmap
-        {
-            get => previewBitmap;
-            set => previewBitmap = value;
-        }
+                public Bitmap ResultBitmap
+                {
+                    get => resultBitmap;
+                    set => resultBitmap = value;
+                }
+
+                public Bitmap SelectedSource
+                {
+                    get => selectedSource;
+                    set => selectedSource = value;
+                }
+
+                public Bitmap PreviewBitmap
+                {
+                    get => previewBitmap;
+                    set => previewBitmap = value;
+                }*/
     }
 }

@@ -73,6 +73,7 @@
             "None",
             "Rainbow",
             "Black & white"});
+            this.cmbFilters.SelectedIndex = 0;
             this.cmbFilters.Location = new System.Drawing.Point(229, 785);
             this.cmbFilters.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbFilters.Name = "cmbFilters";
@@ -88,6 +89,7 @@
             "None",
             "Laplacian 3x3",
             "Sobel 3x3"});
+            this.cmbEdgeDetection.SelectedIndex = 0;
             this.cmbEdgeDetection.Location = new System.Drawing.Point(427, 785);
             this.cmbEdgeDetection.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.cmbEdgeDetection.Name = "cmbEdgeDetection";

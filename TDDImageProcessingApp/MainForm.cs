@@ -35,17 +35,20 @@ namespace TDDImageProcessingApp
         {
             _fileManager = new FileManager();
            //todo delete or replace BusinessLogig with imageControler => do discuss
-            //  imageController = new ImageController();
             _bitmapUtil = new BitmapUtil();
             edgeFilters = new EdgeFilters();
             imageFilters = new ImageFilters();
-
+            
+            // initialize the busineesslogic which take over the user action
             _businessLogic = new BusinessLogic(_fileManager, _bitmapUtil, edgeFilters, imageFilters);
+
             InitializeComponent();
-            cmbEdgeDetection.SelectedIndex = 0;
-            cmbFilters.SelectedIndex = 0;
+            // disable not allowed elements
+            btnSaveNewImage.Enabled = false;
             cmbEdgeDetection.Enabled = false;
             cmbFilters.Enabled = false;
+            cmbFilters.SelectedIndex = 0;
+            cmbEdgeDetection.SelectedIndex = 0;   
         }
         private void BtnOpenOriginalClick(object sender, EventArgs e)
         {
@@ -77,19 +80,20 @@ namespace TDDImageProcessingApp
                 cmbFilters.Enabled = true;
                 cmbEdgeDetection.Enabled = true;
             }
+            // apply the selected edge and image filters when a new image is loaded
             bitmapResult = _businessLogic.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
             bitmapResult = _businessLogic.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
 
-            if (bitmapResult != null) { 
+            if (bitmapResult != null) {
+                // set the image in the preview window
                 picPreview.Image = bitmapResult;
+                btnSaveNewImage.Enabled = true;
             }
 
         }
         private void BtnSaveNewImageClick(object sender, EventArgs e)
         {
-/*            // TODO à supprimer ajouter juste pour le test de cette méthode
-            resultBitmap = businessLogic.OriginalBitmap; */
-
+            // open save dialog
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.Title = "Specify a file name and file path";
             sfd.Filter = "Png Images(*.png)|*.png|Jpeg Images(*.jpg)|*.jpg";
@@ -108,13 +112,13 @@ namespace TDDImageProcessingApp
                 {
                     imgFormat = ImageFormat.Jpeg;
                 }
-
+                // save the image
                 _businessLogic.SaveImage(sfd.FileName, resultBitmap, imgFormat);
 
                 MessageBox.Show("The image has been saved in " + sfd.FileName.ToString(), "Confirmation", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        //TODO move NEXT methods in Bussiness Logic
+        // event handler for edge detection
         private void CmbEdgeDetectionSelectedItemEventHandler(object sender, EventArgs e)
         {
             // if cmbEdgeDetection is 'None', method couldn't be applied
@@ -131,12 +135,14 @@ namespace TDDImageProcessingApp
 
             if (bitmapResult != null)
             {
+                // set the image in the preview window
                 picPreview.Image = bitmapResult;
+                // overwrite the content of the variable that saves the image
                 resultBitmap = bitmapResult;
             }
         }
 
-        // event handler for Image Filters
+        // event handler for image Filters
         private void CmbImageFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {
             selectedSource = previewBitmap;

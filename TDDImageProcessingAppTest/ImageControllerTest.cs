@@ -104,6 +104,29 @@ namespace TDDImageProcessingAppTest
 
             Assert.IsTrue(result);
         }
+        [TestMethod]
+        public void EdgeDetection_ImageFilterResultIsNotNull()
+        {
+            edgeFilters = new EdgeFilters();
+            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            utils = new Utils();
+            var img = Resources.cherry;
+            var referenceBitmap = Resources.cherry;
+
+            // Substitute for IBitmapUtil and instructions for SetBitmap return
+            var bitmapUtil = Substitute.For<IBitmapUtil>();
+            bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
+            // imageFilterResult is not null
+            businessLogic.ImageFilterResult = img;
+            businessLogic.OriginalBitmap = img;
+
+            var resultBitmap = businessLogic.EdgeDetection("None", bitmapUtil);
+            var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
+
+            Assert.IsTrue(result);
+        }
+
+
 
         [TestMethod]
         public void ApplyImageFilter_Rainbow()
@@ -155,6 +178,26 @@ namespace TDDImageProcessingAppTest
             // Substitute for IBitmapUtil and instructions for SetBitmap return
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
+
+            var resultBitmap = businessLogic.ApplyImageFilter("None", bitmapUtil);
+            var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
+
+            Assert.IsTrue(result);
+        }
+        [TestMethod]
+        public void ApplyImageFilter_ImageFilterResultNotNull()
+        {
+            imageFilters = new ImageFilters();
+            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            utils = new Utils();
+            var img = Resources.cherry;
+            var referenceBitmap = Resources.cherry;
+
+            // Substitute for IBitmapUtil and instructions for SetBitmap return
+            var bitmapUtil = Substitute.For<IBitmapUtil>();
+            bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
+            businessLogic.ImageFilterResult = img;
+            businessLogic.OriginalBitmap = img;
 
             var resultBitmap = businessLogic.ApplyImageFilter("None", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);

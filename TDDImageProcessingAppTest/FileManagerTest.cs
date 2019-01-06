@@ -6,6 +6,7 @@ using System.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using TDDImageProcessingApp;
+using TDDImageProcessingAppTest.Properties;
 
 namespace TDDImageProcessingAppTest
 {
@@ -14,8 +15,25 @@ namespace TDDImageProcessingAppTest
     {
         private IFileManager fileManager = Substitute.For<IFileManager>();
         private BusinessLogic businessLogic;
-        public string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
+        private string baseDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
 
+
+        [TestMethod]
+        public void CopyToSquareCanvasTest()
+        {
+            // substitute the interface bitmapUtil
+            IBitmapUtil bitmapUtil = Substitute.For<IBitmapUtil>();
+            int canvasWidthLenght = 600;
+            Bitmap mockBitmap = Resources.cherry;
+
+            // replace the return with the interface
+            bitmapUtil.CopyToSquareCanvas(mockBitmap, canvasWidthLenght).Returns(mockBitmap);
+            // pass the substitutes to the controller 
+            businessLogic = new BusinessLogic(null, bitmapUtil, null, null);
+            Bitmap result = businessLogic.CopyToSquareCanvas(mockBitmap, canvasWidthLenght);
+
+            Assert.AreEqual(result, mockBitmap);
+        }
 
         [TestMethod]
         [ExpectedException(typeof(IOException))]
@@ -36,31 +54,40 @@ namespace TDDImageProcessingAppTest
         [TestMethod]
         public void LoadImage_OpenFile_ReturnIsNotNull()
         {
-            // arrange
-            // couldn't use Nsubstitute  => fileManager.LoadImage("filepath").Returns(new Bitmap(100, 100));
-            fileManager = new FileManager();
+            Bitmap mockBitmap = Resources.cherry;
+            // substitute the interface fileManager
+            fileManager.LoadImage("filepath").Returns(mockBitmap);
             businessLogic = new BusinessLogic(fileManager);
-            // replace the base directory with the "Ressources" directory to load an image
-            baseDirectory = baseDirectory.Replace("bin\\Debug", "Resources\\cherry.png");
             
-            // act
-            var result = businessLogic.LoadImage(baseDirectory);
+            businessLogic.LoadImage("filepath");
+            var result = businessLogic.OriginalBitmap;
 
             Assert.IsNotNull(result);
         }
 
         [TestMethod]
+        public void LoadImage_OpenFileSameAsOriginalImage()
+        {
+            Bitmap mockBitmap = Resources.cherry;
+            // substitute the interface fileManager
+            fileManager.LoadImage("filepath").Returns(mockBitmap);
+
+            businessLogic = new BusinessLogic(fileManager);
+            businessLogic.LoadImage("filepath");
+            // get the loaded image
+            Bitmap result = businessLogic.OriginalBitmap;
+
+            Assert.AreEqual(mockBitmap, result);
+        }
+
+        [TestMethod]
         public void LoadImage_OpenFile_TypeIsBitmap()
         {
-            // arrange
-            fileManager = new FileManager();
+            Bitmap mockBitmap = Resources.cherry;
+            fileManager.LoadImage("filepath").Returns(mockBitmap);
             businessLogic = new BusinessLogic(fileManager);
-            string resourcesDirectory = null;
-            // replace the base directory with the 'resources' directory to load an image
-            resourcesDirectory = baseDirectory.Replace("bin\\Debug", "Resources\\cherry.png");
 
-            // act
-            var result = businessLogic.LoadImage(resourcesDirectory);
+            var result = businessLogic.LoadImage("filepath");
 
             Assert.IsInstanceOfType(result, typeof(Bitmap));
         }
@@ -68,28 +95,28 @@ namespace TDDImageProcessingAppTest
         [TestMethod]
         public void LoadImage_FilePathIsWrong_ReturnIsNull()
         {
-            // arrange
+            fileManager.LoadImage(null);
             businessLogic = new BusinessLogic(fileManager);
-            // act
-            var result = businessLogic.LoadImage("");
+            
+            var result = businessLogic.LoadImage(null);
+
             Assert.IsNull(result);
         }
 
         [TestMethod]
         public void SaveImage_ImageSaved()
         {
-            // arrange
+            bool isPassed = false;
             string resourcesDirectory = null;
-            Bitmap resultBitmap = Properties.Resources.cherry; 
-            fileManager = new FileManager();
+            Bitmap resultBitmap = Resources.cherry; 
+            fileManager
+                .When(x => x.SaveImage("filename", resultBitmap, ImageFormat.Png))
+                .Do(x => isPassed = true );
             businessLogic = new BusinessLogic(fileManager);
-
-
-            // replace the base directory with the 'Resources' directory to save an image
-            resourcesDirectory = baseDirectory.Replace("bin\\Debug", "Resources\\test.png");
             
-            // act
-            businessLogic.SaveImage(resourcesDirectory, resultBitmap, ImageFormat.Png);
+            businessLogic.SaveImage("filename", resultBitmap, ImageFormat.Png);
+
+            Assert.IsTrue(isPassed);
         }
 
         // stream writer exceptions: https://docs.microsoft.com/en-us/dotnet/api/system.io.streamwriter.-ctor?view=netframework-4.7.2
@@ -98,11 +125,13 @@ namespace TDDImageProcessingAppTest
         public void SaveImage_PropertiesIsNull_ReturnNullReferenceException()
         {
             // arrange
-            fileManager = new FileManager();
+            fileManager
+                .When(x => x.SaveImage("filename", null, ImageFormat.Png))
+                .Do(x => throw new NullReferenceException());
             businessLogic = new BusinessLogic(fileManager);
 
             // act
-            businessLogic.SaveImage("test", null, ImageFormat.Png);
+            businessLogic.SaveImage("filename", null, ImageFormat.Png);
         }
 
         [TestMethod]
@@ -110,9 +139,10 @@ namespace TDDImageProcessingAppTest
         public void SaveImage_FilePathIsEmpty_ReturnNullReferenceException()
         {
             // arrange
-            fileManager = new FileManager();
+            fileManager
+                .When(x => x.SaveImage("", null, ImageFormat.Png))
+                .Do(x => throw new ArgumentException());
             businessLogic = new BusinessLogic(fileManager);
-            Bitmap resultBitmap = new Bitmap(100,100);
 
             // act
             businessLogic.SaveImage("", null, ImageFormat.Png);
@@ -126,8 +156,7 @@ namespace TDDImageProcessingAppTest
             Bitmap resultBitmap = new Bitmap(100,100);
             fileManager
                 .When(x => x.SaveImage("filename", resultBitmap, ImageFormat.Png))
-                .Do(x => throw new SecurityException()); 
-                ;
+                .Do(x => throw new SecurityException());
             businessLogic = new BusinessLogic(fileManager);
 
             // act
