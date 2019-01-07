@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
-    public class BusinessLogic
+    public class ImageController
     {
         // use the interfaces in the business logic
         private IFileManager fileManager;
@@ -30,7 +30,7 @@ namespace TDDImageProcessingApp
         private Bitmap bitmapResult = null;
 
         // constructor with all interfaces to be instantiated in the view
-        public BusinessLogic(IFileManager fileManager, IBitmapUtil bitmapUtil, IEdgeFilters edgeFilters, IImageFilters imageFilters)
+        public ImageController(IFileManager fileManager, IBitmapUtil bitmapUtil, IEdgeFilters edgeFilters, IImageFilters imageFilters)
         {
             this.fileManager = fileManager;
             this.bitmapUtil = bitmapUtil;
@@ -38,7 +38,7 @@ namespace TDDImageProcessingApp
             this.imageFilters = imageFilters; 
         }
 
-        public BusinessLogic(IFileManager fileManager)
+        public ImageController(IFileManager fileManager)
         {
             this.fileManager = fileManager;
         }

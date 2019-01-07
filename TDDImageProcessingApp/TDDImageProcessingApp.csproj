@@ -57,7 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils\BitmapUtil.cs" />
-    <Compile Include="Business layer\BusinessLogic.cs" />
+    <Compile Include="Business layer\ImageController.cs" />
     <Compile Include="Filters\EdgeFilters.cs" />
     <Compile Include="Utils\IBitmapUtil.cs" />
     <Compile Include="Filters\IImageFilters.cs" />

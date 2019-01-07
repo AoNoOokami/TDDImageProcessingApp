@@ -11,7 +11,7 @@ namespace TDDImageProcessingAppTest
     [TestClass]
     public class ImageControllerTest
     {
-        private BusinessLogic businessLogic;
+        private ImageController imageController;
         private EdgeFilters edgeFilters;
         private ImageFilters imageFilters;
         private Utils utils;
@@ -20,14 +20,14 @@ namespace TDDImageProcessingAppTest
         public void ApplyImageFilter_SelectedItemIsNull()
         {
             imageFilters = new ImageFilters();
-            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            imageController = new ImageController(null, null, null, imageFilters);
             var img = Resources.cherry;
 
             // Substitute for IBitmapUtil and instructions for SetBitmap return
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var result = businessLogic.ApplyImageFilter(null, bitmapUtil);
+            var result = imageController.ApplyImageFilter(null, bitmapUtil);
 
             Assert.IsNull(result);
         }
@@ -36,14 +36,14 @@ namespace TDDImageProcessingAppTest
         public void EdgeDetection_SelectedItemIsNull()
         {
             edgeFilters = new EdgeFilters();
-            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            imageController = new ImageController(null, null, edgeFilters, null);
             var img = Resources.cherry;
 
             // Substitute for IBitmapUtil and instructions for SetBitmap return
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var result = businessLogic.EdgeDetection(null, bitmapUtil);
+            var result = imageController.EdgeDetection(null, bitmapUtil);
 
             Assert.IsNull(result);
         }
@@ -52,7 +52,7 @@ namespace TDDImageProcessingAppTest
         public void EdgeDetection_Sobel()
         {
             edgeFilters = new EdgeFilters();
-            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            imageController = new ImageController(null, null, edgeFilters, null);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry_sobel;
@@ -61,7 +61,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.EdgeDetection("Sobel 3x3", bitmapUtil);
+            var resultBitmap = imageController.EdgeDetection("Sobel 3x3", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -71,7 +71,7 @@ namespace TDDImageProcessingAppTest
         public void EdgeDetection_Laplacian()
         {
             edgeFilters = new EdgeFilters();
-            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            imageController = new ImageController(null, null, edgeFilters, null);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry_laplacian;
@@ -80,7 +80,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.EdgeDetection("Laplacian 3x3", bitmapUtil);
+            var resultBitmap = imageController.EdgeDetection("Laplacian 3x3", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -90,7 +90,7 @@ namespace TDDImageProcessingAppTest
         public void EdgeDetection_None()
         {
             edgeFilters = new EdgeFilters();
-            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            imageController = new ImageController(null, null, edgeFilters, null);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry;
@@ -99,7 +99,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.EdgeDetection("None", bitmapUtil);
+            var resultBitmap = imageController.EdgeDetection("None", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -108,7 +108,7 @@ namespace TDDImageProcessingAppTest
         public void EdgeDetection_ImageFilterResultIsNotNull()
         {
             edgeFilters = new EdgeFilters();
-            businessLogic = new BusinessLogic(null, null, edgeFilters, null);
+            imageController = new ImageController(null, null, edgeFilters, null);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry;
@@ -117,10 +117,10 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
             // imageFilterResult is not null
-            businessLogic.ImageFilterResult = img;
-            businessLogic.OriginalBitmap = img;
+            imageController.ImageFilterResult = img;
+            imageController.OriginalBitmap = img;
 
-            var resultBitmap = businessLogic.EdgeDetection("None", bitmapUtil);
+            var resultBitmap = imageController.EdgeDetection("None", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -132,7 +132,7 @@ namespace TDDImageProcessingAppTest
         public void ApplyImageFilter_Rainbow()
         {
             imageFilters = new ImageFilters();
-            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            imageController = new ImageController(null, null, null, imageFilters);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry_rainbow;
@@ -141,7 +141,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.ApplyImageFilter("Rainbow", bitmapUtil);
+            var resultBitmap = imageController.ApplyImageFilter("Rainbow", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -151,7 +151,7 @@ namespace TDDImageProcessingAppTest
         public void ApplyImageFilter_BlackAndWhite()
         {
             imageFilters = new ImageFilters();
-            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            imageController = new ImageController(null, null, null, imageFilters);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry_bw;
@@ -160,7 +160,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.ApplyImageFilter("Black & white", bitmapUtil);
+            var resultBitmap = imageController.ApplyImageFilter("Black & white", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -170,7 +170,7 @@ namespace TDDImageProcessingAppTest
         public void ApplyImageFilter_None()
         {
             imageFilters = new ImageFilters();
-            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            imageController = new ImageController(null, null, null, imageFilters);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry;
@@ -179,7 +179,7 @@ namespace TDDImageProcessingAppTest
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
 
-            var resultBitmap = businessLogic.ApplyImageFilter("None", bitmapUtil);
+            var resultBitmap = imageController.ApplyImageFilter("None", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
@@ -188,7 +188,7 @@ namespace TDDImageProcessingAppTest
         public void ApplyImageFilter_ImageFilterResultNotNull()
         {
             imageFilters = new ImageFilters();
-            businessLogic = new BusinessLogic(null, null, null, imageFilters);
+            imageController = new ImageController(null, null, null, imageFilters);
             utils = new Utils();
             var img = Resources.cherry;
             var referenceBitmap = Resources.cherry;
@@ -196,10 +196,10 @@ namespace TDDImageProcessingAppTest
             // Substitute for IBitmapUtil and instructions for SetBitmap return
             var bitmapUtil = Substitute.For<IBitmapUtil>();
             bitmapUtil.SetBitmap(Arg.Any<Bitmap>()).Returns(img);
-            businessLogic.ImageFilterResult = img;
-            businessLogic.OriginalBitmap = img;
+            imageController.ImageFilterResult = img;
+            imageController.OriginalBitmap = img;
 
-            var resultBitmap = businessLogic.ApplyImageFilter("None", bitmapUtil);
+            var resultBitmap = imageController.ApplyImageFilter("None", bitmapUtil);
             var result = utils.CompareImageWithPixel(referenceBitmap, resultBitmap);
 
             Assert.IsTrue(result);
