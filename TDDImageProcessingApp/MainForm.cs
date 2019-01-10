@@ -34,7 +34,6 @@ namespace TDDImageProcessingApp
         public MainForm()
         {
             _fileManager = new FileManager();
-           //todo delete or replace BusinessLogig with imageControler => do discuss
             _bitmapUtil = new BitmapUtil();
             edgeFilters = new EdgeFilters();
             imageFilters = new ImageFilters();

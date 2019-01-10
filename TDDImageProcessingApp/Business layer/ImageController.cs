@@ -98,6 +98,8 @@ namespace TDDImageProcessingApp
             // check if the image was already transformed
             if (imageFilterResult != null)
                 selectedSource = imageFilterResult;
+            else
+                selectedSource = originalBitmap;
 
             if (selectedSource != null)
             {
