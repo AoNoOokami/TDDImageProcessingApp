@@ -97,9 +97,9 @@ namespace TDDImageProcessingApp
             selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
             // check if the image was already transformed
             if (imageFilterResult != null)
-                selectedSource = imageFilterResult;
+                selectedSource = bitmapUtiltest.SetBitmap(imageFilterResult);
             else
-                selectedSource = originalBitmap;
+                selectedSource = bitmapUtiltest.SetBitmap(originalBitmap);
 
             if (selectedSource != null)
             {
