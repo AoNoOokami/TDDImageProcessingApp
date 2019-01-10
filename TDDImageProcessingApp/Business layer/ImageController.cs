@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TDDImageProcessingApp
 {
@@ -15,7 +10,6 @@ namespace TDDImageProcessingApp
         private IBitmapUtil bitmapUtil;
         private IEdgeFilters edgeFilters;
         private IImageFilters imageFilters;
-
         // original image loaded by the user
         private Bitmap originalBitmap;
         // previewBitmap show in the main form
@@ -65,8 +59,8 @@ namespace TDDImageProcessingApp
             bitmapResult = null;
             selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
             // if the image has already been filtered, the original image is reused
-            if (imageFilterResult != null)
-                selectedSource = originalBitmap;
+            /*if (imageFilterResult != null)
+                selectedSource = bitmapUtiltest.SetBitmap(originalBitmap);*/
 
             if (selectedSource != null)
             {
@@ -74,8 +68,8 @@ namespace TDDImageProcessingApp
                 switch (selectedItem)
                 {
                     case "None":
-                        bitmapResult = selectedSource;
                         imageFilterResult = null;
+                        bitmapResult = bitmapUtiltest.SetBitmap(originalBitmap);
                         break;
                     case "Rainbow":
                         bitmapResult = imageFilters.RainbowFilter(selectedSource);
@@ -86,7 +80,7 @@ namespace TDDImageProcessingApp
                         imageFilterResult = bitmapResult;
                         break;
                 }
-            }
+            } 
 
             return bitmapResult; 
         }
@@ -120,52 +114,14 @@ namespace TDDImageProcessingApp
 
             return bitmapResult;
         }
-
         public Bitmap OriginalBitmap
         {
             get => originalBitmap;
             set => originalBitmap = value;
         }
-
         public Bitmap ImageFilterResult
         {
             set => imageFilterResult = value;
         }
-
-        /*        // getters and setters
-                public IFileManager FileManager
-                {
-                    get => fileManager;
-                    set => fileManager = value;
-                }
-                public Bitmap OriginalBitmap
-                {
-                    get => originalBitmap;
-                    set => originalBitmap = value;
-                }
-
-                public Bitmap BitmapResult
-                {
-                    get => bitmapResult;
-                    set => bitmapResult = value;
-                }
-
-                public Bitmap ResultBitmap
-                {
-                    get => resultBitmap;
-                    set => resultBitmap = value;
-                }
-
-                public Bitmap SelectedSource
-                {
-                    get => selectedSource;
-                    set => selectedSource = value;
-                }
-
-                public Bitmap PreviewBitmap
-                {
-                    get => previewBitmap;
-                    set => previewBitmap = value;
-                }*/
     }
 }

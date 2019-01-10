@@ -40,8 +40,9 @@ namespace TDDImageProcessingApp
         }
 
         //black and white filter
-        public Bitmap BlackWhite(Bitmap Bmp)
+        public Bitmap BlackWhite(Bitmap bmp)
         {
+            Bitmap Bmp = (Bitmap) bmp.Clone(); 
             int rgb;
             Color c;
 

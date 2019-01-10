@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Windows.Forms;
-using System.Windows.Forms.VisualStyles;
 
 namespace TDDImageProcessingApp
 {
@@ -46,8 +44,6 @@ namespace TDDImageProcessingApp
             btnSaveNewImage.Enabled = false;
             cmbEdgeDetection.Enabled = false;
             cmbFilters.Enabled = false;
-            cmbFilters.SelectedIndex = 0;
-            cmbEdgeDetection.SelectedIndex = 0;   
         }
         private void BtnOpenOriginalClick(object sender, EventArgs e)
         {
@@ -61,31 +57,32 @@ namespace TDDImageProcessingApp
             {
                 // open the file from the bussiness logic through an interface to load an image
                 originalBitmap = _imageController.LoadImage(ofd.FileName);
-                //businessLogic.OriginalBitmap = originalBitmap;
-            }
+                // calling the method from business logic to resize the image
+                previewBitmap = _imageController.CopyToSquareCanvas(originalBitmap, picPreview.Width);
 
-            // calling the method from business logic to resize the image
-            previewBitmap = _imageController.CopyToSquareCanvas(originalBitmap, picPreview.Width);
-            // set the resized image in the preview window
-            picPreview.Image = previewBitmap;
-            bitmapResult = originalBitmap;
-
-            if (cmbEdgeDetection.SelectedItem.ToString() != "None")
-            {
-                cmbFilters.Enabled = false;
+                // set the resized image in the preview window
+                picPreview.Image = previewBitmap;
+                bitmapResult = originalBitmap;
+                
+                if (cmbEdgeDetection.SelectedItem.ToString() != "None")
+                {
+                    cmbFilters.Enabled = false;
+                }
+                else
+                {
+                    cmbFilters.Enabled = true;
+                    cmbEdgeDetection.Enabled = true;
+                }
+                // apply the selected edge and image filters when a new image is loaded
+                bitmapResult = _imageController.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
+                bitmapResult = _imageController.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
+                
             }
-            else
-            {
-                cmbFilters.Enabled = true;
-                cmbEdgeDetection.Enabled = true;
-            }
-            // apply the selected edge and image filters when a new image is loaded
-            bitmapResult = _imageController.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
-            bitmapResult = _imageController.EdgeDetection(cmbEdgeDetection.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null) {
                 // set the image in the preview window
                 picPreview.Image = bitmapResult;
+                resultBitmap = bitmapResult;
                 btnSaveNewImage.Enabled = true;
             }
 
@@ -144,7 +141,6 @@ namespace TDDImageProcessingApp
         // event handler for image Filters
         private void CmbImageFiltersSelectedItemEventHandler(object sender, EventArgs e)
         {
-            selectedSource = previewBitmap;
             bitmapResult = _imageController.ApplyImageFilter(cmbFilters.SelectedItem.ToString(), _bitmapUtil);
 
             if (bitmapResult != null)
@@ -152,7 +148,6 @@ namespace TDDImageProcessingApp
                 picPreview.Image = bitmapResult;
                 resultBitmap = bitmapResult;
             }
-
         }
     }
 }

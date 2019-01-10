@@ -7,7 +7,6 @@ namespace TDDImageProcessingApp
 {
     public class EdgeFilters : IEdgeFilters
     {
-
         public Bitmap Sobel3x3Filter(Bitmap sourceBitmap,
         bool grayscale = true)
         {
@@ -18,7 +17,6 @@ namespace TDDImageProcessingApp
 
             return resultBitmap;
         }
-
         public Bitmap Laplacian3x3Filter(Bitmap sourceBitmap,
         bool grayscale = true)
         {
@@ -142,7 +140,7 @@ namespace TDDImageProcessingApp
             Marshal.Copy(sourceData.Scan0, pixelBuffer, 0, pixelBuffer.Length);
             sourceBitmap.UnlockBits(sourceData);
 
-            if (grayscale == true)
+            if (grayscale)
             {
                 ApplyGreyScale(pixelBuffer);
             }
