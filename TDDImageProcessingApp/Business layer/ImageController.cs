@@ -58,9 +58,6 @@ namespace TDDImageProcessingApp
         {
             bitmapResult = null;
             selectedSource = bitmapUtiltest.SetBitmap(previewBitmap);
-            // if the image has already been filtered, the original image is reused
-            /*if (imageFilterResult != null)
-                selectedSource = bitmapUtiltest.SetBitmap(originalBitmap);*/
 
             if (selectedSource != null)
             {
